@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>ELIAS BET — Arcade</title>
+ <link rel="stylesheet" href="style.css">
+</head>
+<body>
+ <div class="hotline-bar"><span>📞 HELPLINE • 24/7 Support: <a href="tel:0199676090">0199676090</a></span><strong>Powered by Elias Casino</strong><span>🎁 100% Bonus • খেলো Unlimited • Coins জিতো</span></div>
+
+ <header class="topbar">
+  <button class="menu-toggle" type="button" aria-label="Open menu" onclick="toggleMenu()"><span class="bar-icon"><i></i><i></i><i></i></span><span class="menu-toggle-text">MENU</span></button>
+  <div class="brand"><span class="brand-crown">👑</span><span><b>ELIAS</b> <em>BET</em><small>ARCADE</small></span></div>
+  <nav id="mainNav" class="main-nav" aria-label="Primary navigation">
+   <button class="menu-close" type="button" aria-label="Close menu" onclick="closeMenu()">×</button>
+   <button class="nav-item active-nav" data-page="home" onclick="showPage('home')"><span class="nav-icon">⌂</span><span class="nav-label">Home</span></button>
+   <button class="nav-item" data-page="games" onclick="showPage('games')"><span class="nav-icon">🎮</span><span class="nav-label">Games</span><b class="nav-badge">25</b></button>
+   <button class="nav-item" data-page="leaderboard" onclick="showPage('leaderboard')"><span class="nav-icon">🏆</span><span class="nav-label">Leaderboard</span></button>
+   <button class="nav-item nav-virtual" data-page="virtual" onclick="showPage('virtual')"><span class="nav-icon">✦</span><span class="nav-label">Virtual</span><b class="nav-live">LIVE</b></button>
+   <button class="nav-item nav-wallet" data-page="wallet" onclick="showPage('wallet')"><span class="nav-icon">💎</span><span class="nav-label">Wallet</span></button>
+   <button class="nav-item nav-profile" data-page="profile" onclick="openProfileOrLogin()"><span class="nav-icon">👤</span><span class="nav-label" id="profileNavLabel">Login / Profile</span></button>
+  </nav>
+  <div class="coins premium-coins"><span class="coin-pulse">🪙</span><span><small>BALANCE</small><b id="coinBalance">0</b></span></div>
+ </header>
+ <div id="menuOverlay" class="menu-overlay" aria-hidden="true"></div>
+
+ <main>
+  <button id="musicToggle" class="music-toggle" type="button" onclick="toggleCasinoMusic()" aria-label="Toggle casino music">🎵 Music ON</button>
+  <section id="home" class="page active">
+   <div class="hero home-hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+     <div class="powered-badge">POWERED BY ELIAS CASINO</div>
+     <h1>Play. Win Coins. Have Fun.</h1>
+     <p>100% Bonus • খেলো Unlimited • কোনো cash betting নেই</p>
+    <button class="primary" onclick="showPage('games')">Explore Games</button>
+    </div>
+   </div>
+   <div class="stats">
+    <div><b id="gameCount">24</b><span>Games</span></div>
+    <div><b id="homeCoins">0</b><span>Coins</span></div>
+    <div><b>0</b><span>Real Money</span></div>
+   </div>
+  </section>
+
+  <section id="login" class="page auth-page">
+   <div class="auth-shell">
+    <div class="auth-brand">👑 <span>ELIAS <em>BET</em></span></div>
+    <h2>Welcome Back</h2>
+    <p class="muted">Login করে তোমার gaming profile চালু করো।</p>
+    <form class="auth-card card" onsubmit="loginUser(event)">
+     <label>Username / Email / Phone</label>
+     <input id="loginIdentity" type="text" autocomplete="username" placeholder="Username, email or phone" required>
+     <label>Password</label>
+     <input id="loginPassword" type="password" autocomplete="current-password" placeholder="Enter password" required>
+     <button class="primary auth-btn" type="submit">🔐 Login</button>
+     <p id="loginMsg" class="auth-msg"></p>
+     <button type="button" class="auth-link" onclick="showPage('signup')">New user? Create an account →</button>
+    </form>
+   </div>
+  </section>
+
+  <section id="signup" class="page auth-page">
+   <div class="auth-shell">
+    <div class="auth-brand">✨ <span>Create <em>Account</em></span></div>
+    <h2>Sign Up</h2>
+    <p class="muted">তোমার নিজের player profile তৈরি করো।</p>
+    <form class="auth-card card" onsubmit="signupUser(event)">
+     <label>Full Name</label>
+     <input id="signupName" type="text" autocomplete="name" placeholder="Your full name" required>
+     <label>Username</label>
+     <input id="signupUsername" type="text" autocomplete="username" placeholder="Choose a username" minlength="3" required>
+     <label>Email</label>
+     <input id="signupEmail" type="email" autocomplete="email" placeholder="you@example.com" required>
+     <label>Phone</label>
+     <input id="signupPhone" type="tel" autocomplete="tel" placeholder="01XXXXXXXXX" pattern="01[3-9][0-9]{8}" required>
+     <label>Password</label>
+     <input id="signupPassword" type="password" autocomplete="new-password" placeholder="Minimum 6 characters" minlength="6" required>
+     <label>Confirm Password</label>
+     <input id="signupPassword2" type="password" autocomplete="new-password" placeholder="Repeat password" minlength="6" required>
+     <button class="primary auth-btn" type="submit">✨ Create Account</button>
+     <p id="signupMsg" class="auth-msg"></p>
+     <button type="button" class="auth-link" onclick="showPage('login')">Already have an account? Login →</button>
+    </form>
+   </div>
+  </section>
+
+  <section id="profile" class="page profile-page">
+   <div class="profile-head">
+    <div><span class="eyebrow">PLAYER CENTER</span><h2>👤 My Profile</h2><p class="muted">তোমার account information ও activity এখানে থাকবে।</p></div>
+    <button class="danger profile-logout" onclick="logoutUser()">↪ Logout</button>
+   </div>
+   <div id="profileGuest" class="card profile-guest">
+    <div class="profile-avatar">👤</div><h3>Login required</h3><p class="muted">Profile দেখতে আগে Login অথবা Sign Up করো।</p>
+    <div class="profile-actions"><button class="primary" onclick="showPage('login')">🔐 Login</button><button class="ghost-btn" onclick="showPage('signup')">✨ Sign Up</button></div>
+   </div>
+   <div id="profileContent" class="profile-grid profile-hidden">
+    <div class="card profile-main-card">
+     <div class="profile-avatar large" id="profileAvatar">👤</div>
+     <h3 id="profileDisplayName">Player</h3><p class="profile-username" id="profileDisplayUsername">@username</p>
+     <span class="profile-status"><i></i> Active Player</span>
+    </div>
+    <div class="card profile-info-card">
+     <div class="section-head-row"><div><h3>Account Information</h3><p class="muted small">Saved locally on this browser.</p></div><button class="ghost-btn small" onclick="editProfile()">✏️ Edit</button></div>
+     <div class="profile-info-grid">
+      <div><span>Full Name</span><b id="profileName">—</b></div>
+      <div><span>Username</span><b id="profileUsername">—</b></div>
+      <div><span>Email</span><b id="profileEmail">—</b></div>
+      <div><span>Phone</span><b id="profilePhone">—</b></div>
+      <div><span>Joined</span><b id="profileJoined">—</b></div>
+      <div><span>Balance</span><b>৳ <span id="profileBalance">0</span></b></div>
+     </div>
+     <div id="profileEditBox" class="profile-edit-box" hidden>
+      <label>Full Name</label><input id="editProfileName" type="text">
+      <label>Email</label><input id="editProfileEmail" type="email">
+      <label>Phone</label><input id="editProfilePhone" type="tel" pattern="01[3-9][0-9]{8}">
+      <div class="profile-edit-actions"><button class="primary" onclick="saveProfileEdit()">Save Changes</button><button class="ghost-btn" onclick="cancelProfileEdit()">Cancel</button></div>
+     </div>
+    </div>
+   </div>
+  </section>
+
+  <section id="games" class="page">
+   <div class="section-head-row"><div><h2>All Games</h2><p class="muted">Search your games quickly.</p></div><div class="search-box"><span>🔎</span><input id="gameSearch" type="search" placeholder="Search games..." oninput="renderGames()" autocomplete="off"><button type="button" onclick="clearGameSearch()" aria-label="Clear game search">×</button></div></div>
+   <div id="gameSearchMeta" class="search-meta"></div>
+   <div id="gameGrid" class="game-grid"></div>
+  </section>
+
+  <section id="gamePlayPage" class="page game-play-page">
+   <div class="game-page-top">
+    <button class="back-game" onclick="backToGames()">← Back to Games</button>
+    <div class="playing-title" id="playingTitle">Game</div>
+    <div class="playing-balance">🪙 <span id="playPageCoins">0</span></div>
+   </div>
+   <div id="gameArea" class="game-area game-area-full"></div>
+  </section>
+
+
+  <section id="wallet" class="page">
+   <div class="wallet-hero-head"><div><span class="eyebrow">ELIAS WALLET • PREMIUM</span><h2>💳 BDT Wallet</h2><p class="muted">Premium balance center — fast, clean and mobile friendly.</p></div><div class="wallet-status"><span class="status-dot"></span> </div></div>
+   <p class="muted">এখানের ৳ BDT সম্পূর্ণ balance। কোনো cash payment বা টাকা transfer হয় না।</p>
+
+   <div class="wallet-balance card">
+    <span>Balance</span>
+    <strong>৳ <span id="walletBalance">0</span></strong>
+   </div>
+
+   <div class="admin-layout wallet-actions-grid">
+    <div class="card wallet-action-card deposit-card">
+     <div class="action-card-top"><div class="action-icon">↗</div><div><span class="action-kicker">ADD FUNDS</span><h3>➕ Deposit</h3></div><span class="action-badge">INSTANT</span></div>
+     <div class="wallet-section-label">PAYMENT CHANNEL</div><div class="deposit-info"><strong>Deposit Number</strong><div class="deposit-method-numbers"><span>bKash: <b id="bkashDepositNumber">Not set</b></span><span>Nagad: <b id="nagadDepositNumber">Not set</b></span><span>Rocket: <b id="rocketDepositNumber">Not set</b></span></div></div>
+     <div class="method-hint">Choose a channel</div><select id="depositMethod">
+      <option>bKash</option><option>Nagad</option><option>Rocket</option>
+     </select>
+     <input id="depositNumber" placeholder="Deposit / Sender Number">
+     <input id="depositTxnNumber" placeholder="Transaction Number (TxID)">
+     <div class="wallet-section-label">SELECT AMOUNT</div><div class="amount-grid" id="depositAmounts">
+      <button class="amount-btn a1" onclick="selectAmount('deposit',100)">৳ 100</button>
+      <button class="amount-btn a2" onclick="selectAmount('deposit',200)">৳ 200</button>
+      <button class="amount-btn a3" onclick="selectAmount('deposit',300)">৳ 300</button>
+      <button class="amount-btn a4" onclick="selectAmount('deposit',400)">৳ 400</button>
+      <button class="amount-btn a5" onclick="selectAmount('deposit',500)">৳ 500</button>
+      <button class="amount-btn a6" onclick="selectAmount('deposit',1000)">৳ 1,000</button>
+      <button class="amount-btn a7" onclick="selectAmount('deposit',2000)">৳ 2,000</button>
+      <button class="amount-btn a8" onclick="selectAmount('deposit',5000)">৳ 5,000</button>
+      <button class="amount-btn a9" onclick="selectAmount('deposit',10000)">৳ 10,000</button>
+      <button class="amount-btn a10" onclick="selectAmount('deposit',20000)">৳ 20,000</button>
+     </div>
+     <input id="depositAmount" type="hidden" value="">
+     <div class="wallet-security"><span>🛡️</span> 100% • No cash payment processed</div><button class="primary wallet-main-btn" onclick="requestDeposit()">Add BDT <span>→</span></button>
+    </div>
+
+    <div class="card wallet-action-card withdraw-card">
+     <div class="action-card-top"><div class="action-icon">↙</div><div><span class="action-kicker">TAKE OUT</span><h3>➖ Withdraw</h3></div><span class="action-badge">SECURE</span></div>
+     <div class="payment-logo-grid" aria-label="Withdrawal methods">
+      <button type="button" class="payment-logo-card active" data-method="bKash" onclick="chooseWithdrawMethod('bKash')"><img src="assets/bkash-logo.png" alt="bKash"><span>bKash</span></button>
+      <button type="button" class="payment-logo-card" data-method="Nagad" onclick="chooseWithdrawMethod('Nagad')"><img src="assets/nagad-logo.jpeg" alt="Nagad"><span>Nagad</span></button>
+      <button type="button" class="payment-logo-card" data-method="Rocket" onclick="chooseWithdrawMethod('Rocket')"><img src="assets/rocket-logo.png" alt="Rocket"><span>Rocket</span></button>
+     </div>
+     <select id="withdrawMethod" onchange="loadBoundWithdrawNumber()" aria-label="Withdraw method">
+      <option>bKash</option><option>Nagad</option><option>Rocket</option>
+     </select>
+     <div class="wallet-section-label">WITHDRAW CHANNEL</div><div class="deposit-info"><strong>Withdraw Number</strong><div class="deposit-method-numbers"><span>bKash: <b id="bkashWithdrawNumber">Not set</b></span><span>Nagad: <b id="nagadWithdrawNumber">Not set</b></span><span>Rocket: <b id="rocketWithdrawNumber">Not set</b></span></div></div>
+     <div class="bind-box">
+      <div class="bind-head"><span>📌 Bind withdraw number</span><b id="boundWithdrawStatus">Not bound</b></div>
+      <div class="bind-row"><input id="withdrawNumber" placeholder="Enter receiver number"><button type="button" class="bind-btn" onclick="bindWithdrawNumber()">Bind</button></div>
+      <small>এই নম্বরটি এই browser-এ withdraw account হিসেবে save হবে।</small>
+     </div>
+     <div class="wallet-section-label">SELECT AMOUNT</div><div class="amount-grid" id="withdrawAmounts">
+      <button class="amount-btn a1" onclick="selectAmount('withdraw',100)">৳ 100</button>
+      <button class="amount-btn a2" onclick="selectAmount('withdraw',200)">৳ 200</button>
+      <button class="amount-btn a3" onclick="selectAmount('withdraw',300)">৳ 300</button>
+      <button class="amount-btn a4" onclick="selectAmount('withdraw',400)">৳ 400</button>
+      <button class="amount-btn a5" onclick="selectAmount('withdraw',500)">৳ 500</button>
+      <button class="amount-btn a6" onclick="selectAmount('withdraw',1000)">৳ 1,000</button>
+      <button class="amount-btn a7" onclick="selectAmount('withdraw',2000)">৳ 2,000</button>
+      <button class="amount-btn a8" onclick="selectAmount('withdraw',5000)">৳ 5,000</button>
+      <button class="amount-btn a9" onclick="selectAmount('withdraw',10000)">৳ 10,000</button>
+      <button class="amount-btn a10" onclick="selectAmount('withdraw',20000)">৳ 20,000</button>
+     </div>
+     <input id="withdrawAmount" type="hidden" value="">
+     <div class="wallet-security"><span>🛡️</span> Withdrawal only • No cash transfer</div><button class="primary wallet-main-btn" onclick="requestWithdraw()">Request Withdraw <span>→</span></button>
+    </div>
+   </div>
+
+   <div class="card history-card premium-history">
+    <div class="history-head"><div><span class="action-kicker">ACTIVITY CENTER</span><h3>📜 Deposit / Withdraw History</h3></div><span class="history-pill">LIVE LOG</span></div>
+    <table>
+     <thead><tr><th>Type</th><th>Method</th><th>Deposit Number</th><th>Transaction Number</th><th>Amount</th><th>Status</th></tr></thead>
+     <tbody id="historyBody"></tbody>
+    </table>
+   </div>
+  </section>
+
+  <section id="virtual" class="page virtual-page">
+   <div class="virtual-hero card">
+    <div class="virtual-orbit"><span>✦</span><span>🪙</span><span>💎</span></div>
+    <div class="virtual-copy">
+     <span class="eyebrow">ELIAS ARENA</span>
+     <h2>Play Center</h2>
+     <p>শুধু coins দিয়ে খেলুন। কোনো cash value নেই।</p>
+     <div class="virtual-actions"><button class="primary" onclick="showPage('games')">🎮 Explore Games</button><button class="ghost-btn" onclick="showPage('wallet')">💎 View Wallet</button></div>
+    </div>
+    <div class="virtual-balance-card"><small>BALANCE</small><strong>🪙 <span id="virtualPageCoins">0</span></strong><span>Ready to play</span></div>
+   </div>
+   <div class="virtual-grid">
+    <div class="virtual-stat card"><span>🎮</span><b id="virtualGameCount">25</b><small>Playable Games</small></div>
+    <div class="virtual-stat card"><span>⚡</span><b>24/7</b><small>Arena</small></div>
+    <div class="virtual-stat card"><span>🛡️</span><b>100%</b><small></small></div>
+   </div>
+  </section>
+
+  <section id="leaderboard" class="page">
+   <h2>Leaderboard</h2>
+   <div class="card">
+    <table>
+     <thead><tr><th>#</th><th>Player</th><th>Coins</th></tr></thead>
+     <tbody id="leaderboardBody"></tbody>
+    </table>
+   </div>
+  </section>
+
+  
+ </main>
+
+ <footer>ELIAS BET • coins have no cash value</footer>
+ <script src="app.js"></script>
+
+<script src="shared-api.js"></script>
+<script src="password-eye.js"></script>
+</body>
+</html>
